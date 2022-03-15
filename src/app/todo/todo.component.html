@@ -1,0 +1,136 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 mt-3">
+      <form [formGroup]="todoForm">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>New task</mat-label>
+          <input
+            matInput
+            formControlName="taskName"
+            placeholder="add a task name"
+          />
+        </mat-form-field>
+        <button
+          (click)="onSubmit()"
+          mat-raised-button
+          [disabled]="todoForm.invalid"
+          color="primary"
+        >
+          Add Item
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div cdkDropListGroup>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="todo-container">
+              <h2>To do</h2>
+              <div
+                cdkDropList
+                #todoList="cdkDropList"
+                [cdkDropListData]="todo"
+                [cdkDropListConnectedTo]="[doneList]"
+                class="todo-list"
+                (cdkDropListDropped)="drop($event)"
+              >
+                <div
+                  class="todo-box"
+                  *ngFor="let item of todo; let i = index"
+                  cdkDrag
+                >
+                  {{ item.description }}
+                  <div class="box">
+                    <button
+                      mat-icon-button
+                      color="warn"
+                      (click)="deleteTodo(i)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      (click)="editTodo(i)"
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="todo-container">
+              <h2>In Progress</h2>
+              <div
+                cdkDropList
+                #doneList="cdkDropList"
+                [cdkDropListData]="inprogress"
+                [cdkDropListConnectedTo]="[todoList]"
+                class="todo-list"
+                (cdkDropListDropped)="drop($event)"
+              >
+                <div class="todo-box" *ngFor="let item of inprogress; let i = index" cdkDrag>
+                  {{ item.description }}
+                  <div class="box">
+                    <button
+                      mat-icon-button
+                      color="warn"
+                      (click)="deleteInProgress(i)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      (click)="editInProgress(i)"
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="todo-container">
+              <h2>Done</h2>
+              <div
+                cdkDropList
+                #doneList="cdkDropList"
+                [cdkDropListData]="done"
+                [cdkDropListConnectedTo]="[todoList]"
+                class="todo-list"
+                (cdkDropListDropped)="drop($event)"
+              >
+                <div class="todo-box" *ngFor="let item of done; let i = index" cdkDrag>
+                  {{ item.description }}
+				  <button
+                      mat-icon-button
+                      color="warn"
+                      (click)="deleteDone(i)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      (click)="editDone(i)"
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
