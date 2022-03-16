@@ -24,6 +24,9 @@ export class TodoComponent implements OnInit {
   inprogress: ITodo[] = [];
   done: ITodo[] = [];
 
+  updateId!: any;
+  isEditEnable: boolean = false;
+
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -49,22 +52,34 @@ export class TodoComponent implements OnInit {
     }
   }
 
-  deleteTodo(i: number) {
+  deleteTodoTask(i: number) {
     this.todo.splice(i, 1);
   }
-  deleteInProgress(i: number) {
+  deleteInProgressTask(i: number) {
     this.inprogress.splice(i, 1);
   }
-  deleteDone(i: number) {
+  deleteDoneTask(i: number) {
     this.done.splice(i, 1);
   }
-
-  editTodo(i: number) {}
-  editInProgress(i: number) {}
-  editDone(i: number) {}
 
   onSubmit(): void {
     this.todo.push({ description: this.todoForm.value.taskName, done: false });
     this.todoForm.reset();
+    this.updateId = undefined;
+    this.isEditEnable = false;
+  }
+
+  onEdit(task: ITodo, i: number) {
+    this.todoForm.controls['taskName'].setValue(task.description);
+    this.updateId = i;
+    this.isEditEnable = true;
+  }
+
+  updateTodoTask(): void {
+    this.todo[this.updateId].description = this.todoForm.value.taskName;
+    this.todo[this.updateId].done = false;
+    this.todoForm.reset();
+    this.updateId = undefined;
+    this.isEditEnable = false;
   }
 }

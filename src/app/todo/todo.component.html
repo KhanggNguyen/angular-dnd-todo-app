@@ -1,7 +1,7 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12 mt-3">
-      <form [formGroup]="todoForm">
+  <div class="row" style="background-color: white">
+    <div class="col-12 mt-3 py-3">
+      <form [formGroup]="todoForm" class="mx-3">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>New task</mat-label>
           <input
@@ -18,11 +18,20 @@
         >
           Add Item
         </button>
+        <button
+          *ngIf="isEditEnable"
+          (click)="updateTodoTask()"
+          mat-raised-button
+          [disabled]="todoForm.invalid"
+          color="primary"
+        >
+          Update Item
+        </button>
       </form>
     </div>
   </div>
 
-  <div class="row">
+  <div class="row mt-3">
     <div class="col-md-12">
       <div cdkDropListGroup>
         <div class="row">
@@ -47,14 +56,14 @@
                     <button
                       mat-icon-button
                       color="warn"
-                      (click)="deleteTodo(i)"
+                      (click)="deleteTodoTask(i)"
                     >
                       <mat-icon>delete</mat-icon>
                     </button>
                     <button
                       mat-icon-button
                       color="primary"
-                      (click)="editTodo(i)"
+                      (click)="onEdit(item, i)"
                     >
                       <mat-icon>edit</mat-icon>
                     </button>
@@ -75,22 +84,19 @@
                 class="todo-list"
                 (cdkDropListDropped)="drop($event)"
               >
-                <div class="todo-box" *ngFor="let item of inprogress; let i = index" cdkDrag>
+                <div
+                  class="todo-box"
+                  *ngFor="let item of inprogress; let i = index"
+                  cdkDrag
+                >
                   {{ item.description }}
                   <div class="box">
                     <button
                       mat-icon-button
                       color="warn"
-                      (click)="deleteInProgress(i)"
+                      (click)="deleteInProgressTask(i)"
                     >
                       <mat-icon>delete</mat-icon>
-                    </button>
-                    <button
-                      mat-icon-button
-                      color="primary"
-                      (click)="editInProgress(i)"
-                    >
-                      <mat-icon>edit</mat-icon>
                     </button>
                   </div>
                 </div>
@@ -109,22 +115,22 @@
                 class="todo-list"
                 (cdkDropListDropped)="drop($event)"
               >
-                <div class="todo-box" *ngFor="let item of done; let i = index" cdkDrag>
+                <div
+                  class="todo-box"
+                  *ngFor="let item of done; let i = index"
+                  cdkDrag
+                >
                   {{ item.description }}
-				  <button
-                      mat-icon-button
-                      color="warn"
-                      (click)="deleteDone(i)"
-                    >
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                    <button
-                      mat-icon-button
-                      color="primary"
-                      (click)="editDone(i)"
-                    >
-                      <mat-icon>edit</mat-icon>
-                    </button>
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="deleteDoneTask(i)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <button *ngIf="item.done" mat-icon-button color="primary">
+                    <mat-icon>check_circle</mat-icon>
+                  </button>
                 </div>
               </div>
             </div>

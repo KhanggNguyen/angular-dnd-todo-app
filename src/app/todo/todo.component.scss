@@ -1,10 +1,12 @@
 :host .mat-form-field {
-  width: 90%;
+  width: 100%;
 }
 
 ::ng-deep {
   .mat-form-field-appearance-outline .mat-form-field-outline {
     color: black;
+    background-color: white;
+    outline: none;
   }
 
   mat-form-field {
@@ -74,4 +76,10 @@ form > * {
 
 .todo-list.cdk-drop-list-dragging .todo-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.box {
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: 10px;
 }
